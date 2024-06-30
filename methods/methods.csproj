@@ -5,7 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <StartupObject>ARRAYS.task6</StartupObject>
+	  <StartupObject>methods.callbyValue_Reference</StartupObject>
   </PropertyGroup>
 
 </Project>
