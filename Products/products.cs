@@ -2,23 +2,59 @@
 {
     internal class Product
     {
-        public int Pcode;
-        public string Pname;
-        public int QtyInStock;
-        public double Discount;
-        public static string Brand = "Brand";
-
-        public Product(int pcode, string pname, int qtyInStock, double discount)
+        int pCode;
+        public int Pcode
         {
-            Pcode = pcode;
-            Pname = pname;
-            QtyInStock = qtyInStock;
-            Discount = discount;
+            get { return pCode; }
+            set { pCode = value; }
         }
 
-        public void Display()
+        string pName;
+        public string Pname
         {
-            Console.WriteLine($"PCode: {Pcode}, PName: {Pname}, QtyInStock: {QtyInStock}, Discount: {Discount}%, Brand: {Brand}");
+
+            get { return pName; }
+            set { pName = value; }
+        }
+
+        int qtyInStock;
+        public int QtyInStock
+        {
+            get { return qtyInStock; }
+            set { qtyInStock = value; }
+        }
+
+        int Discount;
+        public int discount
+        {
+            get { return Discount; }
+            set { Discount = value; }
+        }
+
+        static string brand;
+        public string BrandName
+        {
+            get { return brand; }
+            set { brand = value; }
+        }
+
+        int price;
+        public int Price
+        {
+            get { return price; }
+            set { price = value; }
+        }
+
+        static Product()
+        {
+            brand = "Lewis";
+        }
+
+
+        public void GetProduct()
+        {
+            Console.WriteLine("Enter Pcode");
+            PCode = byteConsole.ReadLine();
         }
     }
 }

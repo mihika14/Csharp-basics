@@ -19,6 +19,7 @@ namespace Products
                 Console.WriteLine("3. Exit");
                 Console.Write("Choose an option: ");
                 int choice = int.Parse(Console.ReadLine());
+            
 
                 switch (choice)
                 {
@@ -27,9 +28,6 @@ namespace Products
                         break;
                     case 2:
                         CustomerMenu();
-                        break;
-                    case 3:
-                        false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
