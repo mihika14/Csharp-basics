@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            int[] arr = { -1, -2, 5, 6, 7, 10 };
+            int[] arr = { -2,-3 ,5, 6, 7, 10 };
             Console.WriteLine("Original Array:");
             PrintArray(arr);
 
@@ -26,6 +26,8 @@
             int smallest = arr[0]; 
             for (int i = 1; i < arr.Length; i++)
             {
+                if(arr[i] < 0) continue;
+                
                 if (arr[i] < smallest)
                 {
                     smallest = arr[i];
