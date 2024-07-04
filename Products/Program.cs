@@ -6,128 +6,167 @@ namespace Products
 {
     internal class Program
     {
-        private static List<Product> products = new List<Product>();
-
-        static void Main(string[] args)
-        { 
-
-            while (true)
+       
+        static Product product = new Product();
+        static List<Product> products = new List<Product>()
             {
-                Console.WriteLine("Who are you?");
-                Console.WriteLine("1. Admin");
-                Console.WriteLine("2. Customer");
-                Console.WriteLine("3. Exit");
-                Console.Write("Choose an option: ");
-                int choice = int.Parse(Console.ReadLine());
-            
+             new Product(){ PCode=100, Pname = "Shirt", QtyStock=30, DiscountAllowed=50, Price=1900},
+             new Product(){ PCode=101,Pname = "TShirt", QtyStock=10, DiscountAllowed=50, Price=2300},
+             new Product(){ PCode=102,Pname = "Trouser", QtyStock=30, DiscountAllowed=50, Price=2900},
+             new Product(){ PCode=103 ,Pname = "Jacket", QtyStock=24, DiscountAllowed=50, Price=1200},
+             new Product(){ PCode=104,Pname = "Pant", QtyStock=90, DiscountAllowed=50, Price=5900}
+            };
 
-                switch (choice)
+        static List<Product> Order = new List<Product>();
+        static void Main(string[] args)
+        {
+            string choice = "y";
+            while (choice == "y")
+            {
+                int ch = Menu();
+                switch (ch)
                 {
                     case 1:
-                        AdminMenu();
-                        break;
+                        {
+
+                            int adminChoice = AdminMenu();
+                            switch (adminChoice)
+                            {
+                                case 1:
+                                    {
+                                        product.GetProduct();
+                                        products.Add(product);
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        List<Product> products = GetProducts();
+                                        foreach (Product temp in products)
+                                        {
+                                            temp.DisplayProduct();
+                                        }
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
                     case 2:
-                        CustomerMenu();
-                        break;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
+                        {
+                            int customerChoice = CustomerMenu();
+                            switch (customerChoice)
+                            {
+                                case 1:
+                                    {
+                                        List<Product> products = GetProducts();
+                                        foreach (Product temp in products)
+                                        {
+                                            temp.DisplayProduct();
+                                        }
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        Console.WriteLine("Enter Product to purchase");
+                                        int pCode = byte.Parse(Console.ReadLine());
+                                        Product product = GetProductById(pCode);
+                                        if (product != null)
+                                            product.DisplayProduct();
+                                        else
+                                            Console.WriteLine("Product not found");
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        Console.WriteLine("Enter Product to purchase");
+                                        int pCode = byte.Parse(Console.ReadLine());
+                                        Product product = GetProductById(pCode);
+                                        if (product != null)
+                                            Order.Add(product);
+
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        List<Product> order = GetOrder();
+                                        int amount = 0;
+                                        foreach (Product temp in order)
+                                        {
+                                            temp.DisplayProduct();
+                                            amount += temp.Price;
+                                        }
+
+                                        Console.WriteLine("*************************");
+                                        Console.WriteLine("Total BILL IS " + amount);
+
+                                        Console.WriteLine("*************************");
+                                        break;
+                                    }
+                            }
+                            break;
+                        }
+
                 }
+                Console.WriteLine("Repeat? ");
+                choice = Console.ReadLine();
             }
         }
-        static void AdminMenu()
-        {
-            Console.WriteLine("Admin Menu:");
-            Console.WriteLine("1. Add Product");
-            Console.WriteLine("2. Display Products");
-            Console.Write("Choose an option: ");
-            int choice = int.Parse(Console.ReadLine());
+        static int Menu()
 
-            switch (choice)
-            {
-                case 1:
-                    AddProduct();
-                    break;
-                case 2:
-                    DisplayAllProducts();
-                    break;
-                default:
-                    Console.WriteLine("Invalid choice. Please try again.");
-                    break;
-            }
-        }
-        static void AddProduct()
         {
-            Console.Write("Enter Product Code (PCode): ");
-            int pcode = int.Parse(Console.ReadLine());
-            Console.Write("Enter Product Name (PName): ");
-            string pname = Console.ReadLine();
-            Console.Write("Enter Quantity in Stock (QtyInStock): ");
-            int qtyInStock = int.Parse(Console.ReadLine());
-            Console.Write("Enter Discount Allowed (%): ");
-            double discount = double.Parse(Console.ReadLine());
 
-            Product newProduct = new Product(pcode, pname, qtyInStock, discount);
-            products.Add(newProduct);
-
-            Console.WriteLine("Product added successfully.");
-        }
-        static void DisplayAllProducts()
-        {
-            Console.WriteLine("All Products:");
-            foreach (var product in products)
-            {
-                product.Display();
-            }
+            Console.WriteLine("Who are you");
+            Console.WriteLine("1. Admin");
+            Console.WriteLine("2. Customer");
+            Console.WriteLine("Enter ");
+            int ch = byte.Parse(Console.ReadLine());
+            return ch;
         }
 
-  
-        static void CustomerMenu()
+        static int AdminMenu()
         {
-            Console.Write("Enter Product Name to Purchase: ");
-            string pname = Console.ReadLine();
-            Product productToPurchase = products.Find(p => p.Pname == pname);
+            Console.WriteLine("1. Add New Product");
+            Console.WriteLine("2. Get List of all products");
 
-            if (productToPurchase != null)
+            return (byte.Parse(Console.ReadLine()));
+        }
+
+        static int CustomerMenu()
+        {
+            Console.WriteLine("1. Get List of all products");
+            Console.WriteLine("2. Search a product");
+            Console.WriteLine("3. Order a product");
+            Console.WriteLine("4. Get Bill");
+            return (byte.Parse(Console.ReadLine()));
+        }
+
+        static List<Product> GetProducts()
+        {
+            return products;
+        }
+
+
+        static List<Product> GetOrder()
+        {
+            return Order;
+        }
+
+
+
+        static Product GetProductById(int Pcode)
+        {
+
+
+            foreach (Product product in products)
             {
-                Console.Write("Enter Quantity to Purchase: ");
-                int qtyToPurchase = int.Parse(Console.ReadLine());
-
-                if (qtyToPurchase <= productToPurchase.QtyInStock)
+                if (product.PCode == Pcode)
                 {
-                    double totalAmount = CalculateTotalAmount(productToPurchase, qtyToPurchase);
-                    ProduceBill(productToPurchase, qtyToPurchase, totalAmount);
-                }
-                else
-                {
-                    Console.WriteLine("Insufficient stock.");
+                    return product;
+                    break;
                 }
             }
-            else
-            {
-                Console.WriteLine("Product not found.");
-            }
-        }
-
-       
-        static double CalculateTotalAmount(Product product, int quantity)
-        {
-            double discount = 0.50; 
-            double originalPrice = quantity * 100; 
-            double discountedPrice = originalPrice * (1 - discount);
-            return discountedPrice;
-        }
-
-     
-        static void ProduceBill(Product product, int quantity, double totalAmount)
-        {
-            Console.WriteLine("\n--- Bill ---");
-            Console.WriteLine($"Product Name: {product.Pname}");
-            Console.WriteLine($"Quantity: {quantity}");
-            Console.WriteLine($"Total Amount after Discount: ${totalAmount:F2}");
-            Console.WriteLine("------------------\n");
-
-            product.QtyInStock -= quantity; 
+            return null;
         }
     }
+
+
 }
